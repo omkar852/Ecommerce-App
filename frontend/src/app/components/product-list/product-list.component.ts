@@ -10,7 +10,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProductListComponent implements OnInit{
   products: Product[] = [];
-  currentCateogryId : number = 4;
+  currentCategoryId : number = 1;
+  currentCategoryName : string = 'Books';
   searchMode : boolean = false;
 
   constructor(private productService: ProductService, 
@@ -41,13 +42,14 @@ export class ProductListComponent implements OnInit{
     const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
 
     if (hasCategoryId){
-      this.currentCateogryId = +this.route.snapshot.paramMap.get('id')!;
+      this.currentCategoryId = +this.route.snapshot.paramMap.get('id')!;
+      this.currentCategoryName = this.route.snapshot.paramMap.get('name')!;
     }
 
     // get the products for curr cat id
 
 
-    this.productService.getProductList(this.currentCateogryId).subscribe(
+    this.productService.getProductList(this.currentCategoryId).subscribe(
       data => {
         this.products = data;
       }
