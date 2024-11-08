@@ -44,11 +44,27 @@
                                 <ngb-pagination [(page)]="thePageNumber" 
                                 [pageSize]="thePageSize"
                                 [collectionSize]="theTotalElements"
+                                [maxSize]="5"
+                                [rotate]="true"
+                                [ellipses]="false"
+                                [boundaryLinks]="true"
                                 (pageChange)="listProducts()">
 
                                 </ngb-pagination>
                             </div>
+
+                            <div class="d-flex justify-content-end">
+                                <span style="margin-right: 10px;">Page Size</span>
+                                <select #myPageSelect (change)="updatePageSize(myPageSelect.value)">
+                                    <option>4</option>
+                                    <option selected="true">5</option>
+                                    <option>10</option>
+                                    <option>20</option>
+                                    <option>50</option>
+                                </select>
+                            </div>
                         </div>
+                        
                     </div>
 
                 </div>

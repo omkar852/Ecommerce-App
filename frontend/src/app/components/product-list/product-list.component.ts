@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../common/product';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
@@ -9,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './product-list.component.css'
 })
 export class ProductListComponent implements OnInit{
+
   products: Product[] = [];
   currentCategoryId : number = 1;
   previousCategoryId : number = 1;
@@ -18,7 +20,7 @@ export class ProductListComponent implements OnInit{
 
   // pagination properties
   thePageNumber : number = 1;
-  thePageSize : number = 10;
+  thePageSize : number = 5;
   theTotalElements : number = 0;
 
 
@@ -30,6 +32,12 @@ export class ProductListComponent implements OnInit{
     this.route.paramMap.subscribe(()=>{
       this.listProducts();
     });
+  }
+
+  updatePageSize(pageSize: string) {
+    this.thePageSize = +pageSize;
+    this.thePageNumber = 1;
+    this.listProducts();
   }
 
   listProducts(){
@@ -65,25 +73,31 @@ export class ProductListComponent implements OnInit{
 
     console.log(`currentCategoryId=${this.currentCategoryId}, thePageNumber=${this.thePageNumber}`);
 
-    this.productService.getProductListPaginate(this.thePageNumber-1, this.thePageSize, this.currentCategoryId).subscribe(
-      data => {
-        this.products = data._embedded.products;
-        this.thePageNumber = data.page.number + 1;
-        this.thePageSize = data.page.size;
-        this.theTotalElements = data.page.totalElements;
-      }
-    );
+    this.productService.getProductListPaginate(this.thePageNumber-1, this.thePageSize, this.currentCategoryId).subscribe(this.processResult());
   }
 
   handleSearchProducts() {
-    this.searchKeyword = this.route.snapshot.paramMap.get('keyword')!;
+    const theKeyword = this.route.snapshot.paramMap.get('keyword')!;
 
-    this.productService.modifiedSearchProducts(this.searchKeyword).subscribe(
-      data => {
-        this.products = data;
-      }
-    )
+    // if the current keyword if different than previous one, set pageNum to 1
+    if(this.searchKeyword!= theKeyword){
+      this.thePageNumber = 1;
+    }
+
+    this.searchKeyword = theKeyword;
+
+
+    this.productService.searchProductsPaginate(this.thePageNumber-1, this.thePageSize, theKeyword).subscribe(this.processResult());
     
+  }
+
+  processResult(){
+    return (data : any) => {
+      this.products = data._embedded.products;
+      this.thePageNumber = data.page.number + 1;
+      this.thePageSize = data.page.size;
+      this.theTotalElements = data.page.totalElements;
+    };
   }
 
 }
