@@ -10,8 +10,9 @@ export class SearchComponent {
 
   constructor(private router : Router){}
 
-doSearch(value: string) {
-  this.router.navigateByUrl(`/search/${value}`);
+doSearch(myInput: HTMLInputElement) {
+  this.router.navigateByUrl(`/search/${myInput.value}`);
+  myInput.value = '';
 }
 
 }
