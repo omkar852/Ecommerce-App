@@ -2,12 +2,15 @@
     <div class="section-content section-content-p30">
         <div *ngIf="!searchMode; else search">
             <h1>{{currentCategoryName}}</h1>
-            <hr>
+            <!-- <hr> -->
         </div>
         <ng-template #search>
             <h1>Search results for : {{searchKeyword}}</h1>
-            <hr>
         </ng-template>
+        <div class="text-end">
+            <span >Total : {{theTotalElements}}</span>
+        </div>
+        <hr>
         <div class="container-fluid">
             <div class="row">
                 <!-- Looping over the list of products -->
@@ -25,7 +28,7 @@
 
                         
                         <div class="price">{{tempProduct.unitPrice | currency:'USD'}}</div>
-                        <a href="#" class="primary-btn">Add to cart</a>
+                        <button (click)="addToCart(tempProduct)" class="btn btn-primary btn-sm">Add to cart</button>
                     </div>
                 </div>    
                 
