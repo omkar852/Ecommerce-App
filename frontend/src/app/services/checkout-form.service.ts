@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
@@ -5,8 +6,11 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root'
 })
 export class CheckoutFormService {
+  
+  private countryApiUrl = 'https://countriesnow.space/api/v0.1/countries/states';
 
-  constructor() { }
+  constructor(private httpClient : HttpClient) { }
+
 
   getCreditCardMonths(startMonth: number): Observable<number[]>{
     let data: number[] = [];
@@ -27,4 +31,11 @@ export class CheckoutFormService {
     }
     return of(data);
   }
+
+   // Fetch all countries
+   getCountries(): Observable<any> {
+    return this.httpClient.get<any>(this.countryApiUrl);
+      
+  }
+
 }

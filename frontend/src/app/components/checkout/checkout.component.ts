@@ -18,6 +18,9 @@ export class CheckoutComponent implements OnInit{
   creditCardYears: number[] = [];
   creditCardMonths: number[] = [];
 
+  countries : any[] = [];
+  states: any[] = [];
+
   constructor(private formBuilder : FormBuilder, private checkoutFormService: CheckoutFormService){}
 
   ngOnInit(): void {
@@ -61,6 +64,7 @@ export class CheckoutComponent implements OnInit{
       data => this.creditCardYears = data
     );
 
+    this.fetchCountries();
 
   }
 
@@ -100,6 +104,32 @@ export class CheckoutComponent implements OnInit{
       creditCardFormGroup.get('expirationMonth')?.setValue(startMonth);
     }
 
+  }
+
+  fetchCountries(){
+    this.checkoutFormService.getCountries().subscribe(
+      (response) => {
+        this.countries = response.data;
+      }, 
+      (error) => {
+        console.log("Error fetching countries: ", error);
+      }
+    )
+  }
+
+  onCountryChange(){
+    const shippingAddressFormGroup = this.checkoutFormGroup.controls['shippingAddress'];
+    const selectedCountry = shippingAddressFormGroup.value['country'];
+
+    const countryData = this.countries.find(country => country.name === selectedCountry);
+
+    if (countryData){
+      this.states = countryData.states;
+      shippingAddressFormGroup.get('states')?.setValue('');
+    }
+    else{
+      this.states = [];
+    }
   }
 
   onSubmit(){
