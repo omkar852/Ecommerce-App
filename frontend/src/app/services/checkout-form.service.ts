@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 })
 export class CheckoutFormService {
   
-  private countryApiUrl = 'https://countriesnow.space/api/v0.1/countries/states';
+  private countryApiUrl = 'http://localhost:8080/api/countries-states';
 
   constructor(private httpClient : HttpClient) { }
 
