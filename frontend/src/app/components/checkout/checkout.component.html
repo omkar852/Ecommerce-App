@@ -44,7 +44,7 @@
                         </div>
                         <div class="col-md-9" >
                             
-                            <select formControlName="country" id="country" class="form-control" (change)="onCountryChange()">
+                            <select formControlName="country" id="country" class="form-control" (change)="onShippingCountryChange()">
                                 <option value="" disabled selected>Select a country</option>
                                 <option *ngFor="let country of countries">
                                     {{country.name}}
@@ -60,7 +60,7 @@
                         <div class="col-md-9">
                             <select formControlName="state" id="state" class="form-control">
                                 <option value="" disabled selected>Select a state</option>
-                                <option *ngFor="let state of states">
+                                <option *ngFor="let state of shippingAddressStates">
                                     {{state.name}}
                                 </option>
                             </select>
@@ -114,8 +114,11 @@
                         </div>
                         <div class="col-md-9" >
                             
-                            <select formControlName="country" id="country" class="form-control" >
-                                <option>TO DO</option>
+                            <select formControlName="country" id="country" class="form-control" (change)="onBillingCountryChange()">
+                                <option value="" disabled selected>Select a country</option>
+                                <option *ngFor="let country of countries">
+                                    {{country.name}}
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -126,7 +129,10 @@
                         </div>
                         <div class="col-md-9">
                             <select formControlName="state" id="state" class="form-control">
-                                <option>TO DO</option>
+                                <option value="" disabled selected>Select a state</option>
+                                <option *ngFor="let state of billingAddressStates">
+                                    {{state.name}}
+                                </option>
                             </select>
                         </div>
                     </div>
