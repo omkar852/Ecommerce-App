@@ -5,10 +5,12 @@ import com.example.ecommerce.entity.ProductCategory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.metamodel.EntityType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.http.HttpMethod;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import java.util.ArrayList;
@@ -19,6 +21,13 @@ import java.util.Set;
 public class MyDataRestConfig implements RepositoryRestConfigurer {
 
     private EntityManager entityManager;
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+
+
 
     @Autowired
     public MyDataRestConfig(EntityManager theEntityManager){
