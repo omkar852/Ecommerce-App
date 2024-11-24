@@ -74,9 +74,13 @@ export class CheckoutComponent implements OnInit{
     const checkbox = event.target as HTMLInputElement;
     if (checkbox.checked){
       this.checkoutFormGroup.controls['billingAddress'].setValue(this.checkoutFormGroup.controls['shippingAddress'].value);
+      this.billingAddressStates = this.shippingAddressStates;
     }
     else{
       this.checkoutFormGroup.controls['billingAddress'].reset();
+      this.checkoutFormGroup.controls['billingAddress'].get('country')?.setValue('');
+      this.checkoutFormGroup.controls['billingAddress'].get('state')?.setValue('');
+      this.billingAddressStates = [];
     }
   }
 
@@ -121,15 +125,15 @@ export class CheckoutComponent implements OnInit{
   onShippingCountryChange(){
     const shippingAddressFormGroup = this.checkoutFormGroup.controls['shippingAddress'];
     const selectedCountry = shippingAddressFormGroup.value['country'];
+    
 
-    const countryData = this.countries.find(country => country.name === selectedCountry);
-
-    if (countryData){
-      this.shippingAddressStates = countryData.states;
-      shippingAddressFormGroup.get('states')?.setValue('');
+    if (selectedCountry){
+      this.shippingAddressStates = selectedCountry.states;
+      shippingAddressFormGroup.get('state')?.setValue('');
     }
     else{
       this.shippingAddressStates = [];
+      // console.log(this.shippingAddressStates);
     }
   }
 
@@ -137,11 +141,10 @@ export class CheckoutComponent implements OnInit{
     const billingAddressFormGroup = this.checkoutFormGroup.controls['billingAddress'];
     const selectedCountry = billingAddressFormGroup.value['country'];
 
-    const countryData = this.countries.find(country => country.name === selectedCountry);
 
-    if (countryData){
-      this.billingAddressStates = countryData.states;
-      billingAddressFormGroup.get('states')?.setValue('');
+    if (selectedCountry){
+      this.billingAddressStates = selectedCountry.states;
+      billingAddressFormGroup.get('state')?.setValue('');
     }
     else{
       this.billingAddressStates = [];
