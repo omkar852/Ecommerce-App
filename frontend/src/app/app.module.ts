@@ -22,8 +22,8 @@ const routes : Routes = [
   {path: 'category/:id/:name', component: ProductListComponent},
   {path: 'category', component: ProductListComponent},
   {path: 'products/:id', component: ProductDetailsComponent},
-  {path: 'products', component: ProductListComponent},
-  {path: '', redirectTo: '/category', pathMatch: 'full'},
+  {path: 'products', redirectTo: '/category/1/Books', pathMatch: 'full'},
+  {path: '', redirectTo: '/category/1/Books', pathMatch: 'full'},
   {path: '**', redirectTo: '/products'},
   
 ]
